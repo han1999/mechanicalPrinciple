@@ -1,0 +1,16 @@
+﻿//2019.10.09
+1.TableLayoutPanel组件很容易出错，有时候添加不了组件，还需要自己到设计代码那里去删代码（行列的百分比代码那段），
+IDE的自动补全代码功能在这里需要改进。
+
+//2019.10.14
+2.绘制凸轮的动画，如果用主线程来休眠，也可以做，动画画完以后，form2窗口关不了了，控件也没有了。所以还是要新建线程才行。
+
+3.新建线程以后，用Invalidate来触发paint的话，之前的图形就全没了，没有找到更好的办法，只好每次重绘的时候把前面的图形全部重绘。
+单纯这么干，图形会闪烁，明显能看出来图形绘制有先后，幸好C#有双缓冲，加了：
+                this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+                this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+就没有出现闪烁了。
+
+4.新线程还是用while（true）一直执行比较好，否则可能while ()里面条件判断不准确，导致线程不动了。(while（）不执行了)
+
+5.线程中最好有sleep，否则执行速度太快，会错过细节。
